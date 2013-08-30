@@ -109,13 +109,13 @@ define nginx::resource::location (
 
   ## Check for various error conditions
   if ($vhost == undef) {
-    fail('Cannot create a location reference without attaching to a virtual host')
+    fail("Cannot create a location reference [${title}] without attaching to a virtual host")
   }
   if (($www_root == undef) and ($proxy == undef) and ($location_alias == undef) and ($stub_status == undef) and ($fastcgi == undef) and ($location_custom_cfg == undef)) {
-    fail('Cannot create a location reference without a www_root, proxy, location_alias, fastcgi, stub_status, or location_custom_cfg defined')
+    fail("Cannot create a location reference [${title}] without a www_root, proxy, location_alias, fastcgi, stub_status, or location_custom_cfg defined")
   }
   if (($www_root != undef) and ($proxy != undef)) {
-    fail('Cannot define both directory and proxy in a virtual host')
+    fail("Cannot define both directory and proxy in a virtual host [${title}]")
   }
 
   # Use proxy or fastcgi template if $proxy is defined, otherwise use directory template.
