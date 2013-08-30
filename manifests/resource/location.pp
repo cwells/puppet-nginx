@@ -112,6 +112,7 @@ define nginx::resource::location (
     fail("Cannot create a location reference [${title}] without attaching to a virtual host")
   }
   if (($www_root == undef) and ($proxy == undef) and ($location_alias == undef) and ($stub_status == undef) and ($fastcgi == undef) and ($location_custom_cfg == undef)) {
+    err("www_root=${www_root}, proxy=${proxy}")
     fail("Cannot create a location reference [${title}] without a www_root, proxy, location_alias, fastcgi, stub_status, or location_custom_cfg defined")
   }
   if (($www_root != undef) and ($proxy != undef)) {
