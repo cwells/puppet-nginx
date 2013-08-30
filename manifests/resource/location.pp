@@ -112,7 +112,7 @@ define nginx::resource::location (
     fail("Cannot create a location reference [${title}] without attaching to a virtual host")
   }
   if (($www_root == undef) and ($proxy == undef) and ($location_alias == undef) and ($stub_status == undef) and ($fastcgi == undef) and ($location_custom_cfg == undef)) {
-    fail("Cannot create a location reference [${title}, www_root=${www_root}, proxy=${proxy}] without a www_root, proxy, location_alias, fastcgi, stub_status, or location_custom_cfg defined")
+    fail("Cannot create a location reference [${title}] without a www_root, proxy, location_alias, fastcgi, stub_status, or location_custom_cfg defined")
   }
   if (($www_root != undef) and ($proxy != undef)) {
     fail("Cannot define both directory and proxy in a virtual host [${title}]")
@@ -147,6 +147,8 @@ define nginx::resource::location (
       ensure  => $ensure_real,
       content => $content_real,
     }
+  } else {
+    $ssl = true # otherwise generates broken configuration
   }
 
   ## Only create SSL Specific locations if $ssl is true.
