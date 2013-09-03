@@ -19,6 +19,10 @@ server {
   return 301 https://$host$request_uri;
 <% end -%>
 
+<% if @disable_access_log -%>
+  access_log off;
+<% else -%>
   access_log            <%= scope.lookupvar('nginx::params::nx_logdir')%>/<%= @name.gsub(' ', '_') %>.access.log;
+<% end -%>
   error_log             <%= scope.lookupvar('nginx::params::nx_logdir')%>/<%= @name.gsub(' ', '_') %>.error.log;
 
