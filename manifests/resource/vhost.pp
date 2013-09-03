@@ -140,7 +140,7 @@ define nginx::resource::vhost (
     $ssl_only = true
   }
 
-  if !$rewrite_to_https or $ssl {
+  if !$rewrite_to_https {
     # Create the default location reference for the vHost
     nginx::resource::location {"${name}-default":
       ensure               => $ensure,
