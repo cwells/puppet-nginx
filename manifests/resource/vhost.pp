@@ -140,7 +140,7 @@ define nginx::resource::vhost (
     $ssl_only = true
   }
 
-  if !$ssl and $rewrite_to_https {
+  if !$rewrite_to_https or $ssl {
     # Create the default location reference for the vHost
     nginx::resource::location {"${name}-default":
       ensure               => $ensure,
@@ -161,24 +161,24 @@ define nginx::resource::vhost (
       location_custom_cfg  => $location_custom_cfg,
       notify               => Class['nginx::service'],
     }
- }
+ 
+    # Support location_cfg_prepend and location_cfg_append on default location created by vhost
+    if $location_cfg_prepend {
+      Nginx::Resource::Location["${name}-default"] {
+        location_cfg_prepend => $location_cfg_prepend }
+    }
 
-  # Support location_cfg_prepend and location_cfg_append on default location created by vhost
-  if $location_cfg_prepend {
-    Nginx::Resource::Location["${name}-default"] {
-      location_cfg_prepend => $location_cfg_prepend }
-  }
+    if $location_cfg_append {
+      Nginx::Resource::Location["${name}-default"] {
+        location_cfg_append => $location_cfg_append }
+    }
 
-  if $location_cfg_append {
-    Nginx::Resource::Location["${name}-default"] {
-      location_cfg_append => $location_cfg_append }
-  }
-
-  if $fastcgi != undef and !defined(File['/etc/nginx/fastcgi_params']) { 
-    file { '/etc/nginx/fastcgi_params':
-      ensure  => present,
-      mode    => '0770',
-      content => template('nginx/vhost/fastcgi_params.erb'),
+    if $fastcgi != undef and !defined(File['/etc/nginx/fastcgi_params']) { 
+      file { '/etc/nginx/fastcgi_params':
+        ensure  => present,
+        mode    => '0770',
+        content => template('nginx/vhost/fastcgi_params.erb'),
+      }
     }
   }
 
