@@ -21,5 +21,10 @@ server {
   auth_basic_user_file      "<%= @auth_basic_user_file %>";
 <% end -%>
 
+<% if @disable_access_log -%>
+  access_log off;
+<% else -%>
   access_log            <%= scope.lookupvar('nginx::params::nx_logdir')%>/ssl-<%= @name.gsub(' ', '_') %>.access.log;
+<% end -%>
   error_log             <%= scope.lookupvar('nginx::params::nx_logdir')%>/ssl-<%= @name.gsub(' ', '_') %>.error.log;
+
