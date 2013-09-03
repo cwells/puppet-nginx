@@ -94,7 +94,7 @@ define nginx::resource::location (
   $auth_basic_user_file = undef,
   $priority             = 500
 ) {
-  
+
   File {
     owner  => 'root',
     group  => 'root',
@@ -143,7 +143,7 @@ define nginx::resource::location (
   }
 
   ## Create stubs for vHost File Fragment Pattern
-  if ! $ssl_only {
+  if !$ssl_only {
     file {"${nginx::config::nx_temp_dir}/nginx.d/${vhost}-${priority}-${name}":
       ensure  => $ensure_real,
       content => $content_real,
