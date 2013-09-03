@@ -69,10 +69,7 @@ define nginx::resource::location (
   $ensure               = present,
   $vhost                = undef,
   $www_root             = undef,
-  $index_files          = [
-    'index.html',
-    'index.htm',
-    'index.php'],
+  $index_files          = ['index.html'],
   $proxy                = undef,
   $proxy_read_timeout   = $nginx::params::nx_proxy_read_timeout,
   $fastcgi              = undef,

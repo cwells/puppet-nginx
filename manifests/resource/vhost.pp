@@ -84,10 +84,7 @@ define nginx::resource::vhost (
   $fastcgi                = undef,
   $fastcgi_params         = '/etc/nginx/fastcgi_params',
   $fastcgi_script         = undef,
-  $index_files            = [
-    'index.html',
-    'index.htm',
-    'index.php'],
+  $index_files            = ['index.html'],
   $server_name            = [$name],
   $www_root               = undef,
   $rewrite_www_to_non_www = false,
@@ -144,24 +141,26 @@ define nginx::resource::vhost (
   }
 
   # Create the default location reference for the vHost
-  nginx::resource::location {"${name}-default":
-    ensure               => $ensure,
-    vhost                => $name,
-    ssl                  => $ssl,
-    ssl_only             => $ssl_only,
-    location             => '/',
-    proxy                => $proxy,
-    proxy_read_timeout   => $proxy_read_timeout,
-    proxy_cache          => $proxy_cache,
-    proxy_cache_valid    => $proxy_cache_valid,
-    fastcgi              => $fastcgi,
-    fastcgi_params       => $fastcgi_params,
-    fastcgi_script       => $fastcgi_script,
-    try_files            => $try_files,
-    www_root             => $www_root,
-    index_files          => $index_files,
-    location_custom_cfg  => $location_custom_cfg,
-    notify               => Class['nginx::service'],
+  if !rewrite_to_https {
+    nginx::resource::location {"${name}-default":
+      ensure               => $ensure,
+      vhost                => $name,
+      ssl                  => $ssl,
+      ssl_only             => $ssl_only,
+      location             => '/',
+      proxy                => $proxy,
+      proxy_read_timeout   => $proxy_read_timeout,
+      proxy_cache          => $proxy_cache,
+      proxy_cache_valid    => $proxy_cache_valid,
+      fastcgi              => $fastcgi,
+      fastcgi_params       => $fastcgi_params,
+      fastcgi_script       => $fastcgi_script,
+      try_files            => $try_files,
+      www_root             => $www_root,
+      index_files          => $index_files,
+      location_custom_cfg  => $location_custom_cfg,
+      notify               => Class['nginx::service'],
+    }
   }
 
   # Support location_cfg_prepend and location_cfg_append on default location created by vhost
