@@ -15,9 +15,7 @@ server {
   proxy_set_header        <%= header %>;
 <% end -%>
 <% if @rewrite_to_https -%>
-  if ($ssl_protocol = "") {
-       return 301 https://$host$request_uri;
-  }
+  return 301 https://$host$request_uri;
 <% end -%>
 
   access_log            <%= scope.lookupvar('nginx::params::nx_logdir')%>/<%= @name.gsub(' ', '_') %>.access.log;
