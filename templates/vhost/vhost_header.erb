@@ -14,11 +14,9 @@ server {
 <% @proxy_set_header.each do |header| -%>
   proxy_set_header        <%= header %>;
 <% end -%>
-<% if @rewrite_to_https -%>
-
+<% if @rewrite_to_https %>
   return 301 https://$host$request_uri;
 <% end -%>
-
 <% if @disable_access_log -%>
   access_log off;
 <% else -%>
