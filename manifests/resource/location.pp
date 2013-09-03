@@ -89,6 +89,8 @@ define nginx::resource::location (
   $proxy_cache_valid    = false,
   $auth_basic           = undef,
   $auth_basic_user_file = undef,
+  $proxy_set_header     = $nginx::params::nx_proxy_set_header,
+  $proxy_http_version   = $nginx::params::nx_proxy_http_version,
   $priority             = 500
 ) {
 
