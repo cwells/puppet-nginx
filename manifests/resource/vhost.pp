@@ -77,7 +77,6 @@ define nginx::resource::vhost (
   $ssl_ciphers            = 'HIGH:!aNULL:!MD5',
   $spdy                   = $nginx::params::nx_spdy,
   $proxy                  = undef,
-  $proxy_redirect         = 'off',
   $proxy_read_timeout     = $nginx::params::nx_proxy_read_timeout,
   $proxy_set_header       = [],
   $proxy_cache            = false,
