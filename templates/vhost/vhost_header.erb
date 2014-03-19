@@ -5,8 +5,9 @@ server {
   listen [<%= @ipv6_listen_ip %>]:<%= @ipv6_listen_port %> <% if @ipv6_listen_options %><%= @ipv6_listen_options %><% end %> ipv6only=on;
 <% end %>
   server_name  <%= @rewrite_www_to_non_www ? @name.gsub(/^www\./, '') : @server_name.join(" ") %>;
-  client_max_body_size    0;
-  client_body_buffer_size 128k;
+
+  client_max_body_size    <%= scope.lookupvar('nginx::params::nx_client_max_body_size') %>;
+  client_body_buffer_size <%= scope.lookupvar('nginx::params::nx_client_body_buffer_size') %>;
 
 <% if defined? @auth_basic -%>
   auth_basic           "<%= @auth_basic %>";

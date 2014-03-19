@@ -14,6 +14,9 @@ server {
   ssl_protocols             <%= @ssl_protocols %>;
   ssl_ciphers               <%= @ssl_ciphers %>;
   ssl_prefer_server_ciphers on;
+  client_max_body_size    <%= scope.lookupvar('nginx::params::nx_client_max_body_size') %>;
+  client_body_buffer_size <%= scope.lookupvar('nginx::params::nx_client_body_buffer_size') %>;
+
 <% if defined? @auth_basic -%>
   auth_basic                "<%= @auth_basic %>";
 <% end -%>
