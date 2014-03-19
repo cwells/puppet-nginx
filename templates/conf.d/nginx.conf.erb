@@ -17,6 +17,9 @@ http {
   access_log  <%= scope.lookupvar('nginx::params::nx_logdir')%>/access.log;
 
   sendfile    <%= scope.lookupvar('nginx::params::nx_sendfile')%>;
+  client_max_body_size    0;
+  client_body_buffer_size 128k;
+
 
   server_tokens <%= @server_tokens %>;
   <% if scope.lookupvar('nginx::params::nx_tcp_nopush') == 'on' %>tcp_nopush on;<% end %>
